@@ -32,11 +32,11 @@ exec "scripts/db.cfg"
 
 // Register default database for the server. It is used for the most scripts which require database connection.
 // If you don't want database support, just comment out these lines.
-db_register "sqlite3" "remod_sqlite3.db"  
+db_register "sqlite3" "remod_sqlite3.db"
 db_init
 
-// You can use MySQL/MariaDB as default database as well 
-//db_register "mysql" "remod:password@127.0.0.1:3306/remod" 
+// You can use MySQL/MariaDB as default database as well
+//db_register "mysql" "remod:password@127.0.0.1:3306/remod"
 //db_init
 
 // You can register other databases for some scripts
@@ -60,7 +60,7 @@ servermotd  "Message of the day"
 // Max number of connected clients
 maxclients 24
 
-// Max amount of bots 
+// Max amount of bots
 serverbotlimit 8
 
 // Accessibility of server:
@@ -70,13 +70,13 @@ serverbotlimit 8
 // 3 - auth server, mastermode 3 disabled for non admins
 publicserver 3
 
-// Update master server with your one (you want to see your server in the server browser) 
-updatemaster 1
+// Update master server with your one (you want to see your server in the server browser)
+updatemaster 0
 
 // optional specific IP for server to use
 // serverip N.N.N.N
 
-// Server port. 
+// Server port.
 // Sauerbraten uses serverport and serverport+1 so don't forget to update your firewall/NAT settings (by default: 28785 - TCP, 28786 - UDP)
 serverport 28785
 
@@ -141,10 +141,10 @@ geodb "GeoLite2-Country.mmdb"
 // whether or not to enable server-side demo recording automatically for every match
 // when 1 will always record a server-side demo for every match
 // when 0 will only record a demo for a match when requested
-autorecorddemo 1
+autorecorddemo 0
 
 // save demos to disc
-savedemo 1
+savedemo 0
 
 // folder for save demos
 demodir "demos"
@@ -270,15 +270,15 @@ modmap_spec = 1
 //******** Flagrun ********
 // Store fastest flagruns
 
-// detect cheaters who score flags too fast 
+// detect cheaters who score flags too fast
 // (if a player scores flag faster than $flagrun_minmillis milliseconds, he is assumed as a cheater)
 flagrun_minmillis = 3000
 
 // Show flagrun messages in the game (1 - show, 0 - don't show)
-flagrun_show_messages = 1	
+flagrun_show_messages = 1
 
 // Which database should we use for flagrun results. No value = no database use
-flagrun_db = "default"	
+flagrun_db = "default"
 
 // Execute module
 exec "scripts/modules/flagrun.cfg"
@@ -288,10 +288,10 @@ exec "scripts/modules/flagrun.cfg"
 // TODO some descripion
 
 // local file with authkeys
-authfile "auth.cfg" 
+authfile "auth.cfg"
 
 // set empty if you dont want load authkeys from database with #syncauth else set to "default", not recomended to use with sqlite
-auth_db = "default" 
+auth_db = "default"
 
 // Execute module
 exec "scripts/modules/syncauth.cfg"
@@ -302,7 +302,7 @@ exec "scripts/modules/syncauth.cfg"
 // Collects IP addresses of players and allow you to see players with fake names
 // Define database to use. NOT RECOMMENED to use with sqlite since it could slow down the server
 // The "default" db is used by default, one can omit spy_db definition
-// spy_db = "default" 
+// spy_db = "default"
 
 // Execute module
 exec "scripts/modules/spy.cfg"

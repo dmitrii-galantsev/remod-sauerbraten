@@ -16,37 +16,12 @@ STRIP?=strip
 PLATFORM?=x86_64-pc-linux-gnu
 TARGETHOST=x86_64-pc-linux-gnu
 
-ifneq (,$(findstring MINGW,$(PLATFORM)))
-    ifneq (,$(findstring 64,$(PLATFORM)))
-        WINDRES=x86_64-w64-mingw32-windres
-        STRIP=x86_64-w64-mingw32-strip
-        WINLIB=lib64
-		override CXX+= -m64
-        override WINDRES+= -F pe-x86-64
-    else
-        WINDRES=i686-w64-mingw32-windres
-        STRIP=i686-w64-mingw32-strip
-        WINLIB=lib
-        override CXX+= -m32
-        override WINDRES+= -F pe-i386
-    endif
-    STD_LIBS=-static-libgcc -static-libstdc++
-endif
 
 #result file name
 OUTPUT_FILE=remod
-ifneq (,$(findstring MINGW,$(PLATFORM)))
-OUTPUT_FILE=remod.exe
-endif
 
-ifneq (,$(findstring MINGW,$(PLATFORM)))
-SERVER_INCLUDES= -DSTANDALONE $(INCLUDES) -Iinclude
-SERVER_LIBS= -mwindows $(STD_LIBS) -L$(WINLIB) -Lenet -lenet -lz -lwinmm
-SERVER_WIN_LIBS=-lws2_32 -lwsock32
-else
 SERVER_INCLUDES= -DSTANDALONE $(INCLUDES)
 SERVER_LIBS= -Lenet -lenet -lz
-endif
 
 SERVER_OBJS= \
 	shared/crypto-standalone.o \
@@ -91,8 +66,8 @@ endif
 #use db
 ifeq ($(USE_SQLITE3),true)
 override SERVER_OBJS+= mod/db-standalone.o
-else 
-ifeq ($(USE_MYSQL),true) 
+else
+ifeq ($(USE_MYSQL),true)
 override SERVER_OBJS+= mod/db-standalone.o
 endif
 endif
@@ -129,12 +104,7 @@ else
 override CXXFLAGS+= -DUSE_MYSQL -DDBUG_OFF
 override INCLUDES += -Imod/mysql/include -Imod/mysql/extlib/regex -Imod/mysql/mysys -Imod/mysql/vio
 
-ifeq (,$(findstring MINGW,$(PLATFORM)))
 override SERVER_LIBS += -lpthread -lm
-else
-override CXXFLAGS += -DNO_OLDNAMES
-override SERVER_LIBS += -lws2_32 
-endif
 MYSQL_STRINGS_DIR = strings
 MYSQL_STRINGS_OBJS = bchange-standalone.o bcmp-standalone.o bfill-standalone.o bmove512-standalone.o bmove_upp-standalone.o \
 				ctype-bin-standalone.o ctype-extra-standalone.o ctype-mb-standalone.o ctype-utf8-standalone.o ctype-latin1-standalone.o ctype-standalone.o ctype-simple-standalone.o \
@@ -183,11 +153,11 @@ endif
 
 default: release
 
-release: release-flags 
+release: release-flags
 release-flags: override CXXFLAGS+=-O2 -s
 release-flags: build
 
-debug: debug-flags 
+debug: debug-flags
 debug-flags: override CXXFLAGS+=-O0 -g -DDEBUG -DDEBUG_SQL
 debug-flags: build
 
@@ -239,25 +209,15 @@ discord-clean:
 endif
 
 clean: clean-libgeoip clean-maxminddb clean-enet $(DISCORD_CLEAN_TARGET)
-	-$(RM) $(SERVER_OBJS) 
+	-$(RM) $(SERVER_OBJS)
 
 %-standalone.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $(subst -standalone.o,.cpp,$@) 
+	$(CXX) $(CXXFLAGS) -c -o $@ $(subst -standalone.o,.cpp,$@)
 
 %-standalone.o: %.c
-	$(CC) $(CXXFLAGS) -c -o $@ $(subst -standalone.o,.c,$@)	
-
-res/remod.res:
-	$(WINDRES) -I res -i res/mingw.rc -J rc -o res/remod.res -O coff
-
-servericon: res/remod.res
+	$(CC) $(CXXFLAGS) -c -o $@ $(subst -standalone.o,.c,$@)
 
 $(SERVER_OBJS): CXXFLAGS += $(SERVER_INCLUDES)
 
-ifneq (,$(findstring MINGW,$(PLATFORM)))
-server:	libenet libgeoip libmaxminddb servericon $(DISCORD_TARGET) $(SERVER_OBJS)
-	$(CXX) $(CXXFLAGS) -o ../$(OUTPUT_FILE) res/remod.res $(SERVER_OBJS) $(SERVER_LIBS)
-else
 server:	libenet libgeoip libmaxminddb $(DISCORD_TARGET) $(SERVER_OBJS)
 	$(CXX) $(CXXFLAGS) -o ../$(OUTPUT_FILE) $(SERVER_OBJS) $(SERVER_LIBS)
-endif

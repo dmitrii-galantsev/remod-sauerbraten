@@ -2,6 +2,10 @@
 remod
 remod64
 
+# TEMP: Ignore auto-upgrading mods
+src/mod/libmaxminddb
+src/mod/libGeoIP
+
 # Ignore anything compiled
 *.o
 *.a
