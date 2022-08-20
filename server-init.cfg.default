@@ -68,7 +68,7 @@ serverbotlimit 8
 // 1 - public server
 // 2 - coop server
 // 3 - auth server, mastermode 3 disabled for non admins
-publicserver 3
+publicserver 1
 
 // Update master server with your one (you want to see your server in the server browser)
 updatemaster 0
