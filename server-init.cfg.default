@@ -49,13 +49,13 @@ db_init
 // -------------------------------------
 
 // Unique server ident, required by some modules if you are using same database for multyply servers
-serverident = ""
+serverident = "ffa.popi.tech"
 
 // Server description and server's name
-serverdesc "rb11.butchers.su"
+serverdesc "SAW-ERBRATEN???"
 
 // Message of the day
-servermotd  "Message of the day"
+servermotd  "Shooty shoot for jumps, sawwy saws for kills :) Mosby rules!"
 
 // Max number of connected clients
 maxclients 24
@@ -68,13 +68,14 @@ serverbotlimit 8
 // 1 - public server
 // 2 - coop server
 // 3 - auth server, mastermode 3 disabled for non admins
-publicserver 1
+publicserver 3
 
 // Update master server with your one (you want to see your server in the server browser)
-updatemaster 0
+updatemaster 1
 
 // optional specific IP for server to use
-// serverip N.N.N.N
+// serverip 143.244.175.50
+serverip 143.244.175.50
 
 // Server port.
 // Sauerbraten uses serverport and serverport+1 so don't forget to update your firewall/NAT settings (by default: 28785 - TCP, 28786 - UDP)
@@ -141,10 +142,10 @@ geodb "GeoLite2-Country.mmdb"
 // whether or not to enable server-side demo recording automatically for every match
 // when 1 will always record a server-side demo for every match
 // when 0 will only record a demo for a match when requested
-autorecorddemo 0
+autorecorddemo 1
 
 // save demos to disc
-savedemo 0
+savedemo 1
 
 // folder for save demos
 demodir "demos"
@@ -238,15 +239,28 @@ spmaprot = [
 mpsp6a mpsp6b mpsp6c mpsp9a mpsp9b mpsp9c mpsp10 lost level9 skrsp1 crnsp1
 ]
 
+sawmaps = [
+orion osiris aard3c abyss academy access albatross akaritori akimiski alithia alloy antel anubis aod aqueducts arbana asenatra asthma averas
+awoken bvdm_01 carbide cartel castle_trap catacombs cavefire church51 clash collusion colony complex conflict corruption crypta curvedm curvy_castle
+darkdeath deathtek depot dirtndust dispute DM_BS1 dock dopamine douze duel5 duel7 duel8 dune elegy exist exo fallen
+fanatic_quake fdm6 ferguson force frag-lab frag2 fragplaza frostbyte frozen fubuki fury ghetto gorge gothic-df guacamole gubo hades
+hashi hator haze hdm3 headroom helligsted hektik hillfort hog2 horus idyll3 imhotep industry infernal injustice insipid island
+janela justice kalking1 kastro katrez_d kffa killfactory kmap5 konkuri-to ksauer1 legacy legazzo lost_soul lost_world lostinspace maple masdm
+mbt2 mbt9 mbt10 memento memoria metl2 metl3 metl4 mood moonlite neondevastation neonpanic nessus nmp8 nmp10 nucleus oasis
+oddworld ognjen ogrosupply oldschool orbe orion osiris ot outpost paradigm pariah park pgdm phosgene phrantic pitch_black powerplant
+purgatory refuge renegade rm1 rm5 roughinery ruby ruine saffier sandstorm sauerowalk sauerstruck sdm1 shadowed shindou shinmei1 shiva
+simplicity skrdm1 skycastle-r slingshot souls spcr2 stahlbox stemple stronghold suburb suisei tartech teahupoo tejen thetowers thor torment
+toxicity tumwalk turbine turmoil unworld unworld2 ventania waltz wake5 wdcd zamak zavial zdm2 ztn
+]
+
 maprotationreset
-maprotation "*" $ffamaps
+maprotation "*" $sawmaps
 maprotation "?capture ?hold" $capturemaps
 maprotation "?ctf ?protect ?collect" $ctfmaps
 
 // Teamkill settings
 teamkillkickreset
-teamkillkick "*" 7 30
-teamkillkick "?capture" 10 30
+teamkillkick "*" 5 10
 
 // -------------------------------------
 // MODULES
@@ -321,7 +335,7 @@ exec "scripts/modules/spy.cfg"
 execdir "scripts/commands"
 
 // Commands for IRC bot
-execdir "scripts/irccommands"
+// execdir "scripts/irccommands"
 
 // Custom user config and scripts
 execdir "scripts.d"

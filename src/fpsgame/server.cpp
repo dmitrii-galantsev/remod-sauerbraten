@@ -1,3 +1,4 @@
+#include "popi_tweaks.h"
 #include "game.h"
 
 //remod
@@ -1768,7 +1769,7 @@ namespace server
         gamemillis = 0;
 
         // remod
-        gamelimit = roundtime ? roundtime : 10*60000;
+        gamelimit = roundtime ? roundtime : POPI_GAME_LIMIT*60000;
 
         interm = 0;
         nextexceeded = 0;
@@ -2018,7 +2019,7 @@ namespace server
         {
             damage = 0;
             // make it stronger so rifles push farther
-            knockback *= 5;
+            knockback *= POPI_KNOCKBACK;
         }
         actor->state.ext.guninfo[gun].damage += damage;
 
