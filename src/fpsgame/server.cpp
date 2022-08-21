@@ -32,7 +32,7 @@ extern void checkasleep(int millis);
 namespace server
 {
     bool notgotitems = true;        // true when map has changed and waiting for clients to send item
-    int gamemode = 4;
+    int gamemode = 3;
 
     // remod
     //int gamemillis = 0, gamelimit = 0, nextexceeded = 0, gamespeed = 100;
@@ -2008,21 +2008,29 @@ namespace server
 
     void dodamage(clientinfo *target, clientinfo *actor, int damage, int gun, const vec &hitpush = vec(0, 0, 0))
     {
+        // allow for non-damaging knockback
+        int knockback = damage;
         // remod
         if(m_edit && nodamage == 1) return;
-        // PARKOUR
-        if((m_saw || m_insta) && (gun != GUN_FIST)) return;
+        // SAW mode
+        if(((m_saw || m_insta) && (gun != GUN_FIST)) ||
+                (nodamage == 1))
+        {
+            damage = 0;
+            // make it stronger so rifles push farther
+            knockback *= 5;
+        }
         actor->state.ext.guninfo[gun].damage += damage;
 
         gamestate &ts = target->state;
         ts.dodamage(damage);
         if(target!=actor && !isteam(target->team, actor->team)) actor->state.damage += damage;
-        sendf(-1, 1, "ri6", N_DAMAGE, target->clientnum, actor->clientnum, damage, ts.armour, ts.health);
+        sendf(-1, 1, "ri6", N_DAMAGE, target->clientnum, actor->clientnum, knockback, ts.armour, ts.health);
         if(target==actor) target->setpushed();
         else if(!hitpush.iszero())
         {
             ivec v(vec(hitpush).rescale(DNF));
-            sendf(ts.health<=0 ? -1 : target->ownernum, 1, "ri7", N_HITPUSH, target->clientnum, gun, damage, v.x, v.y, v.z);
+            sendf(ts.health<=0 ? -1 : target->ownernum, 1, "ri7", N_HITPUSH, target->clientnum, gun, knockback, v.x, v.y, v.z);
             target->setpushed();
         }
         if(ts.health<=0)
