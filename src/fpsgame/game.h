@@ -106,7 +106,7 @@ static struct gamemodeinfo
     { "ffa", M_LOBBY, "Free For All: Collect items for ammo. Frag everyone to score points." },
     { "coop edit", M_EDIT, "Cooperative Editing: Edit maps with multiple players simultaneously." },
     { "teamplay", M_TEAM, "Teamplay: Collect items for ammo. Frag \fs\f3the enemy team\fr to score points for \fs\f1your team\fr." },
-    { "instagib", M_NOITEMS | M_INSTA, "Instagib: You spawn with full rifle ammo and die instantly from one shot. There are no items. Frag everyone to score points." },
+    { "instagib", M_NOITEMS | M_INSTA, "Instagib: SAW SAW SAW! Frag everyone to score points." },
     { "insta team", M_NOITEMS | M_INSTA | M_TEAM, "Instagib Team: You spawn with full rifle ammo and die instantly from one shot. There are no items. Frag \fs\f3the enemy team\fr to score points for \fs\f1your team\fr." },
     { "efficiency", M_NOITEMS | M_EFFICIENCY, "Efficiency: You spawn with all weapons and armour. There are no items. Frag everyone to score points." },
     { "effic team", M_NOITEMS | M_EFFICIENCY | M_TEAM, "Efficiency Team: You spawn with all weapons and armour. There are no items. Frag \fs\f3the enemy team\fr to score points for \fs\f1your team\fr." },
@@ -153,7 +153,7 @@ static struct gamemodeinfo
 #define m_collect      (m_check(gamemode, M_COLLECT))
 #define m_teammode     (m_check(gamemode, M_TEAM))
 #define isteam(a,b)    (m_teammode && strcmp(a, b)==0)
-#define m_saw          (m_check(gamemode, M_SAW))
+#define m_saw          (m_checkall(gamemode, M_SAW))
 
 #define m_demo         (m_check(gamemode, M_DEMO))
 #define m_edit         (m_check(gamemode, M_EDIT))
@@ -456,19 +456,20 @@ struct fpsstate
         {
             gunselect = GUN_FIST;
         }
-        else if(m_saw)
+        else if(m_saw || m_insta)
         {
             armour = 0;
             health = 1;
             gunselect = GUN_FIST;
+            ammo[GUN_RIFLE] = 6969;
         }
-        else if(m_insta)
-        {
-            armour = 0;
-            health = 1;
-            gunselect = GUN_RIFLE;
-            ammo[GUN_RIFLE] = 100;
-        }
+        //else if(m_insta)
+        //{
+        //    armour = 0;
+        //    health = 1;
+        //    gunselect = GUN_RIFLE;
+        //    ammo[GUN_RIFLE] = 100;
+        //}
         else if(m_regencapture)
         {
             extern int regenbluearmour;

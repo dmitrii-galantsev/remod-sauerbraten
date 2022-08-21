@@ -32,7 +32,7 @@ extern void checkasleep(int millis);
 namespace server
 {
     bool notgotitems = true;        // true when map has changed and waiting for clients to send item
-    int gamemode = 0;
+    int gamemode = 4;
 
     // remod
     //int gamemillis = 0, gamelimit = 0, nextexceeded = 0, gamespeed = 100;
@@ -2010,6 +2010,8 @@ namespace server
     {
         // remod
         if(m_edit && nodamage == 1) return;
+        // PARKOUR
+        if((m_saw || m_insta) && (gun != GUN_FIST)) return;
         actor->state.ext.guninfo[gun].damage += damage;
 
         gamestate &ts = target->state;
